@@ -31,7 +31,7 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id")
     )
-    private Set<UserGroup> userGroups = new HashSet<>();
+    private Set<UserGroup> allUserGroups = new HashSet<>();
 
     public User(String username, String passwordHash,  String firstName, String lastName) {
         this.username = username;

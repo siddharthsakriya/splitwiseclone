@@ -21,7 +21,7 @@ public class UserGroup {
     private String description;
 
     @Getter @Setter
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "allUserGroups", fetch = FetchType.LAZY)
     private Set<User> members = new HashSet<>();
 
     public UserGroup() {}

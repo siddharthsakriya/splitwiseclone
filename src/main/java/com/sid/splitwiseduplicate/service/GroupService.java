@@ -28,4 +28,12 @@ public class GroupService {
     public UserGroup createGroup(UserGroup userGroup) {
         return groupRepository.save(userGroup);
     }
+
+    public UserGroup updateGroup(UserGroup userGroup) {
+        return groupRepository.save(userGroup);
+    }
+
+    public void deleteGroup(Long id) {
+        groupRepository.deleteById(id);
+    }
 }

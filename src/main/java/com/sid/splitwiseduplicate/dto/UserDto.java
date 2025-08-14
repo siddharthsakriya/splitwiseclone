@@ -1,4 +1,4 @@
 package com.sid.splitwiseduplicate.dto;
 
-public record UserDto(Long id, String username) {
+public record UserDto(String username, String password, String firstName, String lastName) {
 }

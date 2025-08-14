@@ -5,6 +5,8 @@ import com.sid.splitwiseduplicate.model.User;
 import com.sid.splitwiseduplicate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,15 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @GetMapping("api/user/health-check")
-    public String getHealth() {
-        return "All Fine";
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @GetMapping("api/user/getuser/{id}")
@@ -29,7 +28,30 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(new UserDto(user.getId(), user.getUsername()));
+        return ResponseEntity.ok(new UserDto(
+                user.getUsername(),
+                null,
+                user.getFirstName(),
+                user.getLastName()
+        ));
+    }
+
+    @PostMapping("api/user/adduser")
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.username());
+        user.setPasswordHash(passwordEncoder.encode(userDto.password()));
+        user.setFirstName(userDto.firstName());
+        user.setLastName(userDto.lastName());
+
+        User savedUser = userService.addUser(user);
+
+        return ResponseEntity.ok(new UserDto(
+                savedUser.getUsername(),
+                null,
+                savedUser.getFirstName(),
+                savedUser.getLastName()
+        ));
     }
 
 }
