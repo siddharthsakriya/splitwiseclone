@@ -16,9 +16,9 @@ public class ExpenseParticipant {
     private Expense expense;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "circle_member_id", nullable = false)
     @Getter @Setter
-    private User participant;
+    private CircleMember circleMember;
 
     @Getter @Setter
     private double amount;
@@ -31,9 +31,9 @@ public class ExpenseParticipant {
 
     public ExpenseParticipant() {}
 
-    public ExpenseParticipant(Expense expense, User participant, double amount, double share, Boolean settled) {
+    public ExpenseParticipant(Expense expense, CircleMember circleMember, double amount, double share, Boolean settled) {
         this.expense = expense;
-        this.participant = participant;
+        this.circleMember = circleMember;
         this.amount = amount;
         this.share = share;
         this.settled = settled;
